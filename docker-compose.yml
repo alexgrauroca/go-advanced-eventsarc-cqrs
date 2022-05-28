@@ -1,0 +1,31 @@
+version: "3.9"
+networks:
+  default:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/16
+services:
+  postgres:
+    image: postgres:10.3
+    container_name: platzi-events-cqrs-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: mydb
+    volumes:
+      - ./database/initdb:/docker-entrypoint-initdb.d
+    ports:
+      - "54321:5432"
+    command: [ "postgres" ]
+    networks:
+      default:
+        ipv4_address: 172.20.0.2
+  nats:
+    image: nats-streaming:0.9.2
+    container_name: platzi-events-cqrs-nats
+    restart: always
+    networks:
+      default:
+        ipv4_address: 172.20.0.3
