@@ -18,6 +18,4 @@ func NewElastic(url string) (*ElasticSearchRepository, error) {
 	return &ElasticSearchRepository{client}, nil
 }
 
-func (r *ElasticSearchRepository) Close() {
-
-}
+func (r *ElasticSearchRepository) Close() {}

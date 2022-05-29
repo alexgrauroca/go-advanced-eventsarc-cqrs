@@ -29,3 +29,11 @@ services:
     networks:
       default:
         ipv4_address: 172.20.0.3
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.3
+    restart: always
+    environment:
+      - "discovery.type=single-node"
+    networks:
+      default:
+        ipv4_address: 172.20.0.4
