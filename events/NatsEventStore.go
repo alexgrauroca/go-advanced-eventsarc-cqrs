@@ -3,8 +3,10 @@ package events
 import (
 	"bytes"
 	"encoding/gob"
+	"fmt"
 	"go-advanced-eventsarc-cqrs/eventsrepository"
 
+	"github.com/kelseyhightower/envconfig"
 	"github.com/nats-io/nats.go"
 )
 
@@ -15,6 +17,15 @@ type NatsEventStore struct {
 }
 
 func NewNats(url string) (*NatsEventStore, error) {
+	if len(url) == 0 {
+		var err error
+		url, err = loadServerUrl()
+
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	conn, err := nats.Connect(url)
 
 	if err != nil {
@@ -24,6 +35,17 @@ func NewNats(url string) (*NatsEventStore, error) {
 	return &NatsEventStore{
 		conn: conn,
 	}, nil
+}
+
+func loadServerUrl() (string, error) {
+	var cfg Config
+	err := envconfig.Process("", &cfg)
+
+	if err != nil {
+		return "", err
+	}
+
+	return fmt.Sprintf("nats://%s", cfg.NatsAddress), nil
 }
 
 func (n *NatsEventStore) Close() {
