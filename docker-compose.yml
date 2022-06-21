@@ -86,3 +86,15 @@ services:
     networks:
       default:
         ipv4_address: 172.20.0.7
+  nginx:
+    build: ./nginx
+    restart: always
+    ports:
+      - 8080:80
+    depends_on:
+      - feed
+      - query
+      - pusher
+    networks:
+      default:
+        ipv4_address: 172.20.0.8
