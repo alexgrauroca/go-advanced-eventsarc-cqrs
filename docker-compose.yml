@@ -54,3 +54,22 @@ services:
     networks:
       default:
         ipv4_address: 172.20.0.5
+  query:
+    build: .
+    restart: always
+    command: query-service
+    depends_on:
+      - postgres
+      - nats
+      - elasticsearch
+    ports:
+      - 8080
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: mydb
+      NATS_ADDRESS: nats:4222
+      ELASTICSEARCH_ADDRESS: elasticsearch:9200
+    networks:
+      default:
+        ipv4_address: 172.20.0.5
