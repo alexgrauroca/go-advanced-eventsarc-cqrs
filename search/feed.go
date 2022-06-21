@@ -66,7 +66,7 @@ func (r *ElasticSearchRepository) SearchFeed(ctx context.Context, query string) 
 		return nil, err
 	}
 
-	for _, hit := range eRes["hits"].(map[string]any)["hits"].(map[string]any) {
+	for _, hit := range eRes["hits"].(map[string]any)["hits"].([]any) {
 		feed := models.Feed{}
 		source := hit.(map[string]any)["_source"]
 		marshal, err := json.Marshal(source)
