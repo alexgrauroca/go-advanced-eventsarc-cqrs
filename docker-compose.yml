@@ -37,3 +37,20 @@ services:
     networks:
       default:
         ipv4_address: 172.20.0.4
+  feed:
+    build: .
+    restart: always
+    command: feed-service
+    depends_on:
+      - postgres
+      - nats
+    ports:
+      - 8080
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: mydb
+      NATS_ADDRESS: nats:4222
+    networks:
+      default:
+        ipv4_address: 172.20.0.5
