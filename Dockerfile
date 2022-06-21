@@ -16,6 +16,8 @@ COPY events events
 COPY eventsrepository eventsrepository
 COPY feed-service feed-service
 COPY models models
+COPY pusher-service pusher-service
+COPY query-service query-service
 COPY repository repository
 COPY search search
 COPY searchrepository searchrepository

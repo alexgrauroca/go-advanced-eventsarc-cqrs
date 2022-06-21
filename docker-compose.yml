@@ -72,4 +72,17 @@ services:
       ELASTICSEARCH_ADDRESS: elasticsearch:9200
     networks:
       default:
-        ipv4_address: 172.20.0.5
+        ipv4_address: 172.20.0.6
+  pusher:
+    build: .
+    restart: always
+    command: pusher-service
+    depends_on:
+      - nats
+    ports:
+      - 8080
+    environment:
+      NATS_ADDRESS: nats:4222
+    networks:
+      default:
+        ipv4_address: 172.20.0.7
